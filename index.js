@@ -1,12 +1,20 @@
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
-/**
- * Respond with hello worker text
- * @param {Request} request
- */
+
 async function handleRequest(request) {
-  return new Response('Hello worker!', {
-    headers: { 'content-type': 'text/plain' },
-  })
+  if (request.method !== 'GET') return MethodNotAllowed(request)
+  const res = fetch('https://note.com/api/v2/creators/naru_note/contents?kind=note&page=1', {
+      mode: 'no-cors',
+      headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+    })
+  return res
+  function MethodNotAllowed(request) {
+    return new Response(`Method ${request.method} not allowed.`, {
+      status: 405,
+      headers: {
+        'Allow': 'GET'
+      }
+    })
+  }
 }

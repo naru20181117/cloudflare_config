@@ -5,7 +5,6 @@ addEventListener('fetch', event => {
 async function handleRequest(request) {
   if (request.method !== 'GET') return MethodNotAllowed(request)
   const res = fetch('https://note.com/api/v2/creators/naru_note/contents?kind=note&page=1', {
-      mode: 'no-cors',
       headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': '*' },
     })
   return res
